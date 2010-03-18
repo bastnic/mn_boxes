@@ -5,7 +5,6 @@
  */
 function mn_boxes_ctools_plugin_api($module, $api) {
   if ($owner == 'boxes' && $api == 'plugins') {
-    var_dump('test2');
     return array('version' => 1);
   }
 }

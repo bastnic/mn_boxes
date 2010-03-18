@@ -6,8 +6,8 @@ class mn_boxes_default implements boxes_content {
    */
   public function options_defaults() {
     return array(
-      'body' => '',
-      'format' => FILTER_FORMAT_DEFAULT,
+      'type' => 'listing',
+      'number_of_items' => 10,
     );
   }
 
@@ -16,26 +16,25 @@ class mn_boxes_default implements boxes_content {
    */
   public function options_form($values) {
     if (filter_access($values['format'])) {
-      $form = array();
-      $form['body'] = array(
-        '#type' => 'textarea',
-        '#title' => t('Box body'),
-        '#default_value' => $values['body'],
-        '#rows' => 6,
-        '#description' => t('The content of the block as shown to the user.'),
+      $form['type'] = array(
+        '#type' => 'radios',
+        '#title' => t('Type'),
+        '#default_value' => $values['type'],
+        '#options' => array('listing' => t('Listing'), 'map' => t('Map'), 'graph' => t('Graph')),
       );
-      $form['format'] = filter_form($values['format']);
+      $form['number_of_items'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Number of items'),
+        '#default_value' => $values['number_of_items'],
+      );
       return $form;
     }
   }
 
   /**
-   * Implementation of boxes_content::options_form().
+   * Implementation of boxes_content::render().
    */
   public function render($options) {
-    if (!empty($options['body']) && !empty($options['format'])) {
-      return check_markup($options['body'], $options['format'], FALSE);
-    }
     return '';
   }
 }

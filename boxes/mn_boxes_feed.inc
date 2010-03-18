@@ -1,41 +1,58 @@
 <?php
 
-class mn_boxes_default implements boxes_content {
+class mn_boxes_feed extends mn_boxes_default implements boxes_content {
   /**
    * Implementation of boxes_content::options_defaults().
    */
   public function options_defaults() {
-    return array(
-      'body' => '',
-      'format' => FILTER_FORMAT_DEFAULT,
-    );
+    $options = parent::options_defaults($values);
+    $options['feed'] = 0;
+    return $options;
   }
 
   /**
    * Implementation of boxes_content::options_form().
    */
   public function options_form($values) {
-    if (filter_access($values['format'])) {
-      $form = array();
-      $form['body'] = array(
-        '#type' => 'textarea',
-        '#title' => t('Box body'),
-        '#default_value' => $values['body'],
-        '#rows' => 6,
-        '#description' => t('The content of the block as shown to the user.'),
-      );
-      $form['format'] = filter_form($values['format']);
-      return $form;
+    $form = parent::options_form($values);
+    $result = db_query(db_rewrite_sql("SELECT nid, title FROM {node} WHERE type = 'feed' ORDER BY title"));
+    $feeds = array(0 => '<'. t('All feeds') .'>');
+    while ($row = db_fetch_array($result)) {
+      $feeds[$row['nid']] = $row['title'];
     }
+    $form['feed'] = array(
+      '#type' => 'select',
+      '#title' => t('Feed'),
+      '#options' => $feeds,
+      '#default_value' => $values['feed']
+    );
+    return $form;
   }
-
+  
   /**
-   * Implementation of boxes_content::options_form().
+   * Implementation of boxes_content::render().
    */
   public function render($options) {
-    if (!empty($options['body']) && !empty($options['format'])) {
-      return check_markup($options['body'], $options['format'], FALSE);
+    $view = views_get_view('mn_news');
+
+    switch ($options['type']) {
+      case 'listing':
+        $view->set_display('block_3');
+        $view->display_handler->set_option('items_per_page', $options['number_of_items']);
+        break;
+      case 'map':
+        $view->set_display('block_2');
+        break;
+      case 'graph':
+        $view->set_display('block_1');
+        break;
     }
-    return '';
+
+    if ($options['feed']) {
+      $view->set_arguments(array($options['feed']));
+    }
+    $output = $view->execute_display();
+    return $output['content'];
   }
+
 }
