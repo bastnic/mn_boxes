@@ -7,7 +7,7 @@ class mn_boxes_default implements boxes_content {
   public function options_defaults() {
     return array(
       'type' => 'listing',
-      'number_of_items' => 10,
+      'number_of_items' => 5,
     );
   }
 
