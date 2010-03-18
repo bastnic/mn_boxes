@@ -14,12 +14,12 @@ class mn_boxes_search extends mn_boxes_default implements boxes_content {
    * Implementation of boxes_content::options_form().
    */
   public function options_form($values) {
-    $form = parent::options_form($values);
     $form['search_terms'] = array(
       '#type' => 'textfield',
       '#title' => t('Search terms'),
       '#default_value' => $values['search_terms']
     );
+    $form += parent::options_form($values);
     return $form;
   }
   

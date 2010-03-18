@@ -14,7 +14,6 @@ class mn_boxes_feed extends mn_boxes_default implements boxes_content {
    * Implementation of boxes_content::options_form().
    */
   public function options_form($values) {
-    $form = parent::options_form($values);
     $result = db_query(db_rewrite_sql("SELECT nid, title FROM {node} WHERE type = 'feed' ORDER BY title"));
     $feeds = array(0 => '<'. t('All feeds') .'>');
     while ($row = db_fetch_array($result)) {
@@ -26,6 +25,7 @@ class mn_boxes_feed extends mn_boxes_default implements boxes_content {
       '#options' => $feeds,
       '#default_value' => $values['feed']
     );
+    $form += parent::options_form($values);
     return $form;
   }
   
