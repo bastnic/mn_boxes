@@ -27,7 +27,25 @@ class mn_boxes_search extends mn_boxes_default implements boxes_content {
    * Implementation of boxes_content::render().
    */
   public function render($options) {
-    // var_dump($options);
+    $view = views_get_view('mn_news');
+
+    switch ($options['type']) {
+      case 'listing':
+        $view->set_display('block_3');
+        $view->display_handler->set_option('items_per_page', $options['number_of_items']);
+        break;
+      case 'map':
+        $view->set_display('block_2');
+        break;
+      case 'graph':
+        $view->set_display('block_1');
+        break;
+    }
+    if (!empty($options['search_terms'])) {
+      $view->set_exposed_input(array('search' => $options['search_terms']));
+    }
+    $output = $view->execute_display();
+    return $output['content'];
   }
 
 }
