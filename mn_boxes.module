@@ -20,6 +20,7 @@ function mn_boxes_boxes_plugins() {
       'class' => 'mn_boxes_default',
       'file' => 'mn_boxes_default.inc',
       'path' => drupal_get_path('module', 'mn_boxes') .'/boxes',
+      'parent' => 'box',
     ),
   );
   $info['mn_boxes_feed'] = array(
