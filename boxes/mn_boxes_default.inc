@@ -35,6 +35,9 @@ class mn_boxes_default extends boxes_box {
    * Implementation of boxes_content::render().
    */
   public function render() {
-    return '';
+    $title = isset($this->title) ? check_plain($this->title) : NULL;
+    $block['title'] = $title;
+    $block['subject'] = $title;
+    return $block;
   }
 }

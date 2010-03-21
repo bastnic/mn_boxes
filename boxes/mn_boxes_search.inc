@@ -45,7 +45,9 @@ class mn_boxes_search extends mn_boxes_default {
       $view->set_exposed_input(array('search' => $this->options['search_terms']));
     }
     $output = $view->execute_display();
-    return $output['content'];
+    $block = parent::render();
+    $block['content'] = $output['content'];
+    return $block;
   }
 
 }

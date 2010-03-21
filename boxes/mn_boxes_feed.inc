@@ -52,7 +52,9 @@ class mn_boxes_feed extends mn_boxes_default {
       $view->set_arguments(array($this->options['feed']));
     }
     $output = $view->execute_display();
-    return $output['content'];
+    $block = parent::render();
+    $block['content'] = $output['content'];
+    return $block;
   }
 
 }
