@@ -1,6 +1,6 @@
 <?php
 
-class mn_boxes_default extends boxes_box {
+abstract class mn_boxes_default extends boxes_box {
   /**
    * Implementation of boxes_content::options_defaults().
    */
