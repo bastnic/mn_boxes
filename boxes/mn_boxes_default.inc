@@ -38,6 +38,7 @@ abstract class mn_boxes_default extends boxes_box {
     $title = isset($this->title) ? check_plain($this->title) : NULL;
     $block['title'] = $title;
     $block['subject'] = $title;
+    $block['delta'] = $this->delta;
     return $block;
   }
 }
