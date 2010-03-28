@@ -4,7 +4,7 @@
  * Implementation of hook_ctools_plugin_api().
  */
 function mn_boxes_ctools_plugin_api($module, $api) {
-  if ($owner == 'boxes' && $api == 'plugins') {
+  if ($module == 'boxes' && $api == 'plugins') {
     return array('version' => 1);
   }
 }
